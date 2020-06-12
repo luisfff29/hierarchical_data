@@ -123,3 +123,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'animals.Usuario'
+
+LOGIN_URL = '/login/'
+
+LOGOUT_REDIRECT_URL = '/'
