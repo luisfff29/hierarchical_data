@@ -9,6 +9,7 @@
 
   <body>
     {% load mptt_tags %}
+    {% if animals %}
     <ul>
       {% recursetree animals %}
       <li>
@@ -21,6 +22,9 @@
       </li>
       {% endrecursetree %}
     </ul>
+    {% else %}
+    <p>You have not created any tree yet. Create your own tree <a href="{% url 'create' %}">HERE</a></p>
+    {% endif %}
   </body>
 
 </html>
