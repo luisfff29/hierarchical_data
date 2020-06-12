@@ -21,4 +21,5 @@ from animals import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
+    path('create/', views.Create_Animal.as_view()),
 ]
