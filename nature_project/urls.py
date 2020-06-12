@@ -24,4 +24,5 @@ urlpatterns = [
     path('create/', views.Create_Animal.as_view(), name='create'),
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('signup/', views.SignUpView.as_view(), name='signup'),
 ]

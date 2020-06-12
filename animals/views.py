@@ -1,8 +1,8 @@
 from django.shortcuts import render, reverse
-from animals.models import Animals
+from animals.models import Animals, Usuario
 from django.views.generic import FormView, View
 from django.contrib.auth import login, logout, authenticate
-from animals.forms import AnimalsForm, LoginForm
+from animals.forms import AnimalsForm, LoginForm, SignUpForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -49,3 +49,20 @@ class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         return HttpResponseRedirect(reverse('home'))
+
+
+class SignUpView(FormView):
+    template_name = 'signup.html'
+    form_class = SignUpForm
+    success_url = '/login/'
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        Usuario.objects.create_user(
+            username=data['username'],
+            password=data['password'],
+            email=data['email'],
+            is_staff=False,
+            is_superuser=False
+        )
+        return super().form_valid(form)
