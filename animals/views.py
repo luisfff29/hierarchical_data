@@ -8,11 +8,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
-def index(request):
-    return render(request, 'index.html', {'animals': Animals.objects.all()})
+class Index(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'index.html', {'animals': Animals.objects.all()})
 
 
-class Create_Animal(FormView):
+class Create_Animal(LoginRequiredMixin, FormView):
     template_name = 'form.html'
     form_class = AnimalsForm
     success_url = '/'

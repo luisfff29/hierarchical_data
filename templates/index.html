@@ -4,12 +4,14 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animals</title>
+    <title>Tree</title>
   </head>
 
   <body>
+    <a href="{% url 'logout' %}"><button type="submit">Log out</button></a>
     {% load mptt_tags %}
     {% if animals %}
+    <h2>This is your Tree:</h2>
     <ul>
       {% recursetree animals %}
       <li>
@@ -23,6 +25,7 @@
       {% endrecursetree %}
     </ul>
     {% else %}
+    <h3>Welcome {{ user.username }}!</h3>
     <p>You have not created any tree yet. Create your own tree <a href="{% url 'create' %}">HERE</a></p>
     {% endif %}
   </body>
