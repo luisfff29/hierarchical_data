@@ -1,5 +1,6 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
@@ -13,3 +14,7 @@ class Animals(MPTTModel):
 
     def __str__(self):
         return self.name
+
+
+class Usuario(AbstractUser):
+    pass
