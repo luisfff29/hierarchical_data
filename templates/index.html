@@ -8,7 +8,19 @@
   </head>
 
   <body>
-    <h1>Title</h1>
+    {% load mptt_tags %}
+    <ul>
+      {% recursetree animals %}
+      <li>
+        {{ node.name }}
+        {% if not node.is_leaf_node %}
+        <ul class="children">
+          {{ children }}
+        </ul>
+        {% endif %}
+      </li>
+      {% endrecursetree %}
+    </ul>
   </body>
 
 </html>
