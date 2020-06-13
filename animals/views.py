@@ -18,20 +18,24 @@ class Index(LoginRequiredMixin, View):
                 ))})
 
 
-class Create_Animal(LoginRequiredMixin, FormView):
-    template_name = 'form.html'
-    form_class = AnimalsForm
-    success_url = '/'
+class Create_Animal(LoginRequiredMixin, View):
+    def get(self, request):
+        form = AnimalsForm()
+        form.fields['parent'].queryset = form.fields['parent'].queryset.filter(
+            author=Usuario.objects.get(username=request.user.username))
+        return render(request, 'form.html', {'form': form})
 
-    def form_valid(self, form):
-        data = form.cleaned_data
-        Animals.objects.create(
-            name=data['name'],
-            parent=data['parent'],
-            author=get_object_or_404(
-                Usuario, username=self.request.user.username
-            ))
-        return super().form_valid(form)
+    def post(self, request):
+        form = AnimalsForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            Animals.objects.create(
+                name=data['name'],
+                parent=data['parent'],
+                author=get_object_or_404(
+                    Usuario, username=self.request.user.username
+                ))
+            return HttpResponseRedirect(reverse('home'))
 
 
 class LoginView(View):
