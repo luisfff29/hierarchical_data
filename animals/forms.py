@@ -5,7 +5,7 @@ from animals.models import Animals, Usuario
 class AnimalsForm(forms.ModelForm):
     class Meta:
         model = Animals
-        fields = '__all__'
+        fields = ['name', 'parent']
 
 
 class LoginForm(forms.Form):

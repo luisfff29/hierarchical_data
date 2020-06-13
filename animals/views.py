@@ -5,12 +5,17 @@ from django.contrib.auth import login, logout, authenticate
 from animals.forms import AnimalsForm, LoginForm, SignUpForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
 class Index(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'index.html', {'animals': Animals.objects.all()})
+        return render(request, 'index.html', {
+            'animals': Animals.objects.filter(
+                author=get_object_or_404(
+                    Usuario, username=request.user.username
+                ))})
 
 
 class Create_Animal(LoginRequiredMixin, FormView):
@@ -20,7 +25,12 @@ class Create_Animal(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         data = form.cleaned_data
-        Animals.objects.create(name=data['name'], parent=data['parent'])
+        Animals.objects.create(
+            name=data['name'],
+            parent=data['parent'],
+            author=get_object_or_404(
+                Usuario, username=self.request.user.username
+            ))
         return super().form_valid(form)
 
 
@@ -43,6 +53,8 @@ class LoginView(View):
                 return HttpResponseRedirect(
                     request.GET.get('next', reverse('home'))
                 )
+            else:
+                return render(request, 'login.html', {'form': LoginForm()})
 
 
 class LogoutView(LoginRequiredMixin, View):

@@ -9,6 +9,7 @@
 
   <body>
     <a href="{% url 'logout' %}"><button type="submit">Log out</button></a>
+    <a href="{% url 'create' %}"><button type="submit">Create folder/file</button></a>
     {% load mptt_tags %}
     {% if animals %}
     <h2>This is your Tree:</h2>
